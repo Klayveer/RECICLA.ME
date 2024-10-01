@@ -1,0 +1,29 @@
+# Ambiente virtual
+venv/
+env/
+.venv/
+
+# Arquivos de configuração do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Arquivos Python
+__pycache__/
+*.py[cod]
+*.sqlite3
+
+# Arquivos de log
+*.log
+
+# Arquivos de pacotes e dependências
+*.env
+*.lock
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Diretórios de ferramentas do IDE
+.idea/
+.vscode/
+
+# Banco
+test.db

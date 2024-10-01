@@ -1,107 +1,200 @@
-# Projeto Interdisciplinar: Gestão de Resíduos Sólidos
+# LSL-931
 
-Este projeto foi desenvolvido como parte de um trabalho interdisciplinar de Engenharia da Computação, abordando as disciplinas de Programação de Sistemas Especialistas, Análise Orientada a Objetos (OO) e Modelagem e Simulação Matemática. O objetivo é criar um sistema especialista para otimizar a coleta e o tratamento de resíduos sólidos, utilizando um dataset real da empresa Cascais Ambiente.
+# Projeto FastAPI com SQLAlchemy, Alembic e SlowAPI
 
-## Objetivo
-
-Desenvolver um sistema que analisa e prevê a geração de resíduos sólidos com base em dados históricos, utilizando Python, APIs, modelagem matemática, simulação e visualização gráfica. O sistema será capaz de fornecer previsões e gerar gráficos interativos para auxiliar no planejamento da coleta e destinação dos resíduos.
-
-## Tecnologias Utilizadas
-
-- **Python**: Linguagem de programação principal do projeto.
-- **API REST**: Criada com FastAPI para comunicação com outros sistemas e consulta de dados.
-- **Machine Learning**: Técnicas para prever a geração futura de resíduos.
-- **Modelagem Matemática e Simulação**: Para prever a quantidade de resíduos sólidos no futuro.
-- **Bibliotecas Gráficas**: `matplotlib`, `seaborn`, ou `plotly` para visualizações interativas.
-- **Diagramas UML**: Para modelagem e documentação das classes e interações do sistema.
+Este projeto é uma API simples desenvolvida com FastAPI, SQLAlchemy, Alembic e SlowAPI. Ele permite a criação, leitura, atualização e exclusão de itens em um banco de dados MySQL via XAMPP, com limitação de taxa nas requisições.
 
 ## Funcionalidades
 
-1. **Análise de Resíduos**: Relatórios detalhados por categoria de resíduos.
-2. **Previsão de Resíduos**: Previsões com base nos dados históricos usando métodos estatísticos e machine learning.
-3. **Visualização Gráfica**: Gráficos que mostram o comportamento dos resíduos ao longo do tempo e previsões.
-4. **API REST**: Inserção e consulta de novos dados de resíduos por meio de uma API.
-5. **Simulação**: Simulação de coleta e geração futura de resíduos.
+- **Cadastro de Itens**: Permite adicionar novos itens ao banco de dados.
+- **Leitura de Itens**: Permite recuperar informações de um item pelo seu ID.
+- **Atualização de Itens**: Permite atualizar informações de um item existente.
+- **Exclusão de Itens**: Permite excluir um item existente.
+- **Limitação de Taxa**: Utiliza SlowAPI para limitar o número de requisições por minuto para cada endpoint da API.
+- **Controle Transacional**: Garante a integridade dos dados em operações de escrita.
 
-## Dataset
+## Tecnologias Utilizadas
 
-O dataset utilizado contém dados diários da quantidade de resíduos sólidos recolhidos pela empresa Cascais Ambiente, divididos nas seguintes categorias:
+- **FastAPI**: Framework para construção de APIs.
+- **SQLAlchemy**: ORM para interagir com o banco de dados.
+- **Alembic**: Ferramenta de migração de banco de dados.
+- **SlowAPI**: Biblioteca para limitação de taxa de requisições.
+- **MySQL**: Banco de dados relacional utilizado via XAMPP.
+- **Pydantic**: Biblioteca para validação e conversão de dados.
 
-- Cortes de Jardim
-- Objetos Fora de Uso
-- Óleos Alimentares Usados
-- Papel/Cartão
-- Plástico/Metal
-- Recolha Indiferenciada
-- Resíduos de Limpeza
-- Resíduos Urbanos Biodegradáveis
-- Vidro
+## Configuração do Projeto
 
-## Arquitetura
+### Instalação
 
-### Diagrama UML (Esboço)
-
-```plaintext
-+-------------------+            +---------------------+
-|     Classe API     | -------> |   Classe Resíduos   |
-+-------------------+            +---------------------+
-         |                             |
-         v                             v
-+-------------------+            +---------------------+
-|  Classe Simulação  | -------> |    Classe Gráfico    |
-+-------------------+            +---------------------+
+1. Clone o repositório:
+   
+```bash
+    git clone https://github.com/Klayveer/LogicaDeProgramacao-Python
+    cd Projeto_FastApi
 ```
 
-## Classes Principais
-
-- **Residuos:** Responsável por ler, armazenar e processar os dados do dataset.
-- **Categoria:** Representa cada categoria de resíduos (ex.: Papel/Cartão, Plástico/Metal).
-- **Simulacao:** Implementa métodos para simulação e previsão da coleta futura de resíduos.
-- **Grafico:** Gera gráficos interativos com os dados históricos e previsões.
-- **API:** Facilita a integração e comunicação com outros sistemas via requisições HTTP.
-
-## Instalação
-
-Clone o repositório:
+2. Crie um ambiente virtual e ative-o:
 
 ```bash
-git clone [https://github.com/Klayveer/AV3](https://github.com/Klayveer/AV3)
+    python -m venv venv
+    source venv/bin/activate  # Para Windows, use: venv\Scripts\activate
 ```
 
-Instale as dependências:
+3. Instale as dependências:
 
 ```bash
-pip install -r requirements.txt
+    pip install -r requirements.txt
 ```
 
-Execute o projeto:
+### Configuração do Banco de Dados
+
+1. Inicie o MySQL via XAMPP:
+
+Abra o XAMPP e inicie o módulo MySQL.
+
+2. Crie o Banco de Dados:
+
+Acesse `phpMyAdmin` via `http://localhost/phpmyadmin` e crie um banco de dados chamado `fastapi_db`.
+
+3. Configure a Conexão no Projeto:
+
+No arquivo `app/database.py`, configure a URL de conexão para MySQL:
+
+```python
+    DATABASE_URL = "mysql://root@localhost:3306/fastapi_db"
+```
+
+4. Migrar o Banco de Dados:
+
+Para garantir que o banco de dados está atualizado com as últimas alterações no modelo, execute:
 
 ```bash
-python main.py
+    python -m alembic upgrade head
 ```
 
-## Para acessar a API (usando FastAPI):
+### Rodando o Servidor
 
-Acesse a documentação da API via `http://127.0.0.1:8000/docs`
+Para iniciar o servidor FastAPI, use:
 
-## Como Usar
+```bash
+    python -m uvicorn app.main:app --reload
+```
 
-- **Inserir novos dados**: Utilize a rota `/api/v1/residuos` para inserir novos dados de resíduos.
-- **Consultar previsões**: Acesse a rota `/api/v1/simulacao` para obter previsões de geração de resíduos.
-- **Visualizar gráficos**: Execute o módulo de gráficos `grafico.py` para gerar visualizações dos dados.
+O servidor estará disponível em `http://127.0.0.1:8000`.
 
-## Modelagem Matemática e Simulação
+### Endpoints da API
 
-Utilizamos técnicas de regressão linear e outros métodos estatísticos para prever a quantidade de resíduos sólidos gerados no futuro. A simulação ajuda a prever a melhor frequência de coleta para diferentes categorias de resíduos, com base nos dados históricos.
+Cadastro de Itens:
+- Método: POST
+- URL: `/items/`
+- Limite de Requisições: 5 por minuto
+- Corpo da Requisição:
 
-## Contribuições
+```json
+{
+    "name": "Nome do Produto",
+    "description": "Descrição do Produto",
+    "price": 99.99
+}
+```
 
-1. Fork o projeto.
-2. Crie uma nova branch `(git checkout -b feature/nova-funcionalidade)`.
-3. Faça suas alterações e commit `(git commit -m 'Adiciona nova funcionalidade')`.
-4. Envie para o repositório original `(git push origin feature/nova-funcionalidade)`.
-5. Abra um Pull Request.
+- Resposta:
 
-## Licença
+```json
+{
+    "id": 1,
+    "name": "Nome do Produto",
+    "description": "Descrição do Produto",
+    "price": 99.99
+}
+```
 
-Este projeto está licenciado sob a MIT License. Veja o arquivo `LICENSE` para mais detalhes.
+Leitura de Itens:
+- Método: GET
+- URL: `/items/{item_id}`
+- Limite de Requisições: 5 por minuto
+- Parâmetros: `item_id` - ID do item que deseja consultar.
+
+Resposta:
+
+```json
+{
+    "id": 1,
+    "name": "Nome do Produto",
+    "description": "Descrição do Produto",
+    "price": 99.99
+}
+```
+
+Atualização de Itens:
+- Método: PUT
+- URL: `/items/{item_id}`
+- Limite de Requisições: 5 por minuto
+- Corpo da Requisição:
+
+```json
+{
+    "name": "Nome Atualizado",
+    "description": "Descrição Atualizada",
+    "price": 109.99
+}
+```
+
+Resposta:
+
+```json
+{
+    "id": 1,
+    "name": "Nome Atualizado",
+    "description": "Descrição Atualizada",
+    "price": 109.99
+}
+```
+
+Exclusão de Itens:
+- Método: DELETE
+- URL: `/items/{item_id}`
+- Limite de Requisições: 5 por minuto
+
+Resposta:
+
+```json
+{
+    "mensagem": "Item deletado com sucesso"
+}
+```
+
+### Estrutura do Projeto
+
+```markdown
+Projeto_FastApi/
+│
+├── app/
+│   ├── __init__.py
+│   ├── main.py
+│   ├── models.py
+│   ├── schemas.py
+│   ├── crud.py
+│   └── database.py
+├── alembic/
+│   ├── versions/
+│   ├── script.py.mako
+│   └── env.py
+├── .gitignore
+├── README.md
+├── requirements.txt
+└── alembic.ini  
+```
+
+- main.py: Define as rotas da API.
+- models.py: Define os modelos de dados.
+- schemas.py: Define os schemas de validação de dados.
+- crud.py: Contém funções de CRUD para interagir com o banco de dados.
+- database.py: Configura a conexão com o banco de dados.
+
+### Contribuições
+
+Sinta-se à vontade para contribuir com melhorias. Se você encontrar problemas ou tiver sugestões, crie um issue ou envie um pull request.
+
+### Licença
+Este projeto está licenciado sob a MIT License.

@@ -51,7 +51,7 @@ Este sistema rastreia dados de reciclagem dos últimos 10 anos e inclui um dashb
 
 1. Clone o repositório:
    ```bash
-   git clone <URL_DO_REPOSITORIO>
+   git clone https://github.com/Klayveer/AV3
    ```
 
 2. Instale as dependências do backend:

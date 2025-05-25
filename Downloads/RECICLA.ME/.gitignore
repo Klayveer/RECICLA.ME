@@ -1,8 +1,1 @@
-# Ignorar arquivos do sistema
-/Ambiente de Impressão/
-/Cookies/
-/Configurações Locais/
-/Dados de Aplicativos/
-/Microsoft/
-/OneDrive/
-/Videos/
+/.venv
